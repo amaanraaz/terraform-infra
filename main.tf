@@ -29,9 +29,9 @@ module "compute" {
   private_subnet2_id     = module.networking.private_subnet-2
   public_sg_id           = module.security.public_sg_id
   private_sg_id          = module.security.private_sg_id
-  public_instance_name   = "public-instance"
-  private_instance1_name = "private-instance-tf"
-  private_instance2_name = "private-instance-tf"
+  public_instance_name   = "nginx-tf-public-instance"
+  private_instance1_name = "nginx-tf-private-instance1"
+  private_instance2_name = "nginx-tf-private-instance2"
   key_pair               = var.key_pair
 }
 
