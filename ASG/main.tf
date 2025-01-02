@@ -35,7 +35,7 @@ resource "aws_autoscaling_group" "app" {
   target_group_arns    = [var.aws_tg_arn]
   health_check_type    = "ELB"
   health_check_grace_period = 300
-  tags = [
+  tag = [
     {
       key                 = "Name"
       value               = "nginx-tf"
