@@ -16,14 +16,19 @@ resource "aws_security_group" "public" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"] # Allow HTTP from everywhere
   }
-
   ingress {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"] # Allow HTTPS from everywhere
   }
-  
+  ingress {
+    from_port   = -1
+    to_port     = -1
+    protocol    = "icmp"
+    cidr_blocks = ["0.0.0.0/0"] # Allow all ICMP from everywhere
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -47,6 +52,12 @@ resource "aws_security_group" "private" {
     to_port     = 22
     protocol    = "tcp"
     cidr_blocks = var.allowed_ssh_ips
+  }
+  ingress {
+    from_port   = -1
+    to_port     = -1
+    protocol    = "icmp"
+    cidr_blocks = ["0.0.0.0/0"] # Allow all ICMP from everywhere
   }
 
   egress {
