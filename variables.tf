@@ -100,7 +100,7 @@ variable "my_tf_ig_name" {
 variable "ami_id" {
   description = "AMI ID for the instances"
   type        = string
-  default     = "ami-01816d07b1128cd2d"
+  default     = "ami-005fc0f236362e99f"
 }
 
 variable "instance_type" {
