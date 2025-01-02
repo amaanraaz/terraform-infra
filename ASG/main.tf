@@ -27,19 +27,20 @@ resource "aws_autoscaling_group" "app" {
   desired_capacity     = 2
   max_size             = 4
   min_size             = 1
-  launch_template {
-    id      = aws_launch_template.my_tf_launch_template.id
-    version = "$Latest"
-  }
   vpc_zone_identifier  = [var.subnets[0], var.subnets[1]]
   target_group_arns    = [var.aws_tg_arn]
   health_check_type    = "ELB"
   health_check_grace_period = 300
-  tag = [
+
+  launch_template {
+    id      = aws_launch_template.my_tf_launch_template.id
+    version = "$Latest"
+  }
+
+  tag
     {
       key                 = "Name"
       value               = "nginx-tf"
       propagate_at_launch = true
     }
-  ]
 }
