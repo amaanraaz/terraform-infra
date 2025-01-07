@@ -1,0 +1,67 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/amaanraaz/terraform-infra.git'
+            }
+        }
+        stage('Terraform Init') {
+            steps {
+                sh 'terraform init'
+            }
+        }
+        stage('Terraform Format') {
+            steps {
+                sh 'terraform fmt'
+            }
+        }
+        stage('Terraform Validate') {
+            steps {
+                sh 'terraform validate'
+            }
+        }
+        //stage('Terraform Plan') {
+          //  steps {
+                //sh 'terraform plan'
+            //}
+        //}
+        stage('Approval for Apply') {
+            steps {
+                script {
+                    def userInput = input(
+                        message: 'Do you approve applying the Terraform changes?',
+                        parameters: [
+                            booleanParam(name: 'Confirm Apply', defaultValue: true, description: 'Approve Terraform Apply?')
+                        ]
+                    )
+                    echo "User Approval: ${userInput}"
+                }
+            }
+        }
+        stage('Terraform Apply') {
+            steps {
+                sh 'terraform apply -auto-approve'
+            }
+        }
+        stage('Approval for Destroy') {
+            steps {
+                script {
+                    def userInput = input(
+                        message: 'Do you approve destroying the Terraform infrastructure?',
+                        parameters: [
+                            booleanParam(name: 'Confirm Destroy', defaultValue: true, description: 'Approve Terraform Destroy?')
+                        ]
+                    )
+                    echo "User Approval: ${userInput}"
+                }
+            }
+        }
+        stage('Terraform Destroy') {
+            steps {
+                sh 'terraform destroy -auto-approve'
+            }
+        }
+    }
+}
