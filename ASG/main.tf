@@ -2,6 +2,7 @@ resource "aws_launch_template" "my_tf_launch_template" {
   name_prefix = "my_tf_launch_template"
   image_id      = var.ami_id
   instance_type = "t2.micro"
+  key_name = "ec2"
   network_interfaces {
     security_groups = [var.security_group] # Reference to the existing SG
   }
