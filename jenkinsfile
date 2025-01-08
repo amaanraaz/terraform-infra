@@ -16,6 +16,9 @@ pipeline {
             }
         }
         stage('Terraform Init') {
+            when {
+             expression { params.operation == 'terraform apply' }
+            }
             steps {
                 sh 'terraform init'
             }
