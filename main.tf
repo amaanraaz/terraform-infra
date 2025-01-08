@@ -59,6 +59,6 @@ module "vpc_peering" {
   source_cidr_block = var.vpc_cidr
   target_cidr_block = var.default_vpc_cidr
   source_route_table_id_public = module.networking.public_route_table
-  source_route_table_id_private = module.networking_module.private_route_table
+  source_route_table_id_private = module.networking.private_route_table
   target_route_table_id = var.default_route_table_id
 }
