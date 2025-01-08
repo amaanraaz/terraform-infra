@@ -1,6 +1,14 @@
 pipeline {
     agent any
 
+    parameters {
+        choice(
+            name: 'operation',
+            choices: ['terraform apply', 'terraform destroy'],
+            description: 'Infra provisioning or destroying'
+        )
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -13,53 +21,50 @@ pipeline {
             }
         }
         stage('Terraform Format') {
+
+            when {
+             expression { params.operation == 'terraform apply' }
+            }
+
             steps {
                 sh 'terraform fmt'
             }
         }
         stage('Terraform Validate') {
+
+            when {
+             expression { params.operation == 'terraform apply' }
+            }
+
             steps {
                 sh 'terraform validate'
             }
         }
-        //stage('Terraform Plan') {
-          //  steps {
-                //sh 'terraform plan'
-            //}
-        //}
-        stage('Approval for Apply') {
-            steps {
-                script {
-                    def userInput = input(
-                        message: 'Do you approve applying the Terraform changes?',
-                        parameters: [
-                            booleanParam(name: 'Confirm Apply', defaultValue: true, description: 'Approve Terraform Apply?')
-                        ]
-                    )
-                    echo "User Approval: ${userInput}"
-                }
+        stage('Terraform Plan') {
+
+            when {
+             expression { params.operation == 'terraform apply' }
+            }
+
+           steps {
+                sh 'terraform plan'
             }
         }
         stage('Terraform Apply') {
+            when {
+             expression { params.operation == 'terraform apply' }
+            }
             steps {
+                input 'Do you want to run terraform apply ?'
                 sh 'terraform apply -auto-approve'
             }
         }
-        stage('Approval for Destroy') {
-            steps {
-                script {
-                    def userInput = input(
-                        message: 'Do you approve destroying the Terraform infrastructure?',
-                        parameters: [
-                            booleanParam(name: 'Confirm Destroy', defaultValue: true, description: 'Approve Terraform Destroy?')
-                        ]
-                    )
-                    echo "User Approval: ${userInput}"
-                }
-            }
-        }
         stage('Terraform Destroy') {
+            when {
+             expression { params.operation == 'terraform apply' }
+            }
             steps {
+                input 'Do you want to run terraform apply ?'
                 sh 'terraform destroy -auto-approve'
             }
         }

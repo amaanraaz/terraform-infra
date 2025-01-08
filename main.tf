@@ -51,18 +51,14 @@ module "ASG" {
   security_group = module.security.public_sg_id
 }
 
-
-# resource "aws_s3_bucket" "my-aws_s3_bucket" {
-#   bucket = "my-s3-tf-bucket-new-nginx-infra"
-#   tags = {
-#     Name = "my-bucket-tf"
-#   }
-# }
-
-# terraform {
-#   backend "s3" {
-#     bucket = "my-s3-tf-bucket-new-nginx-infra"
-#     key    = "nginx_infra/terraform.tfstate"
-#     region = "us-east-1"
-#   }
-# }
+module "vpc_peering" {
+  source = "./vpc_peering"
+  source_vpc_id = module.networking.vpc_id
+  target_vpc_id = var.default_vpc_id
+  peer_name = "peer_conn"
+  source_cidr_block = var.vpc_cidr
+  target_cidr_block = var.default_vpc_cidr
+  source_route_table_id_public = module.networking.public_route_table
+  source_route_table_id_private = module.networking_module.private_route_table
+  target_route_table_id = var.default_route_table_id
+}

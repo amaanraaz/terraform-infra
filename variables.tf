@@ -115,3 +115,23 @@ variable "key_pair" {
   type        = string
   default     = "ec2"
 }
+
+
+#default vpc variables
+variable "default_vpc_id" {
+  description = "default vpc id"
+  type = string
+  default = "vpc-0d4e5aa8799b68794"
+}
+
+variable "default_vpc_cidr" {
+  description = "default vpc cidr"
+  type = string
+  default = "172.31.0.0/16"
+}
+
+variable "default_route_table_id" {
+  description = "default route table id"
+  type = string
+  default = "rtb-0d8969470e359f9a6"
+}
