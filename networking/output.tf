@@ -35,5 +35,5 @@ output "public_route_table" {
 
 output "private_route_table" {
   description = "value of private route table id"
-  value = aws_route_table.public-route-table.id
+  value = aws_route_table.private-route-table.id
 }
