@@ -64,7 +64,7 @@ pipeline {
             post {
                 success {
                     echo 'Terraform Apply was successful. Triggering next job.'
-                    build job: 'nginx', wait: false
+                    build job: 'Install-Nginx', wait: false
                 }
             }
         }
