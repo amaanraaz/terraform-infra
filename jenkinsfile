@@ -61,10 +61,9 @@ pipeline {
         }
         stage('Terraform Destroy') {
             when {
-             expression { params.operation == 'terraform apply' }
+             expression { params.operation == 'terraform destroy' }
             }
             steps {
-                input 'Do you want to run terraform apply ?'
                 sh 'terraform destroy -auto-approve'
             }
         }
