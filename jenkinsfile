@@ -61,6 +61,12 @@ pipeline {
                 input 'Do you want to run terraform apply ?'
                 sh 'terraform apply -auto-approve'
             }
+            post {
+                success {
+                    echo 'Terraform Apply was successful. Triggering next job.'
+                    build job: 'nginx', wait: false
+                }
+            }
         }
         stage('Terraform Destroy') {
             when {
