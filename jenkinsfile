@@ -19,7 +19,9 @@ pipeline {
         stage('Run GitLeaks') {
             steps {
                 script {
-                    sh 'gitleaks detect --source=. --report-format=json --report-path=gitleaks_report.json' 
+                    // sh 'gitleaks detect --source=. --report-format=json --report-path=gitleaks_report.json' 
+                    // new format
+                    sh 'gitleaks git . --report-format=json --report-path=gitleaks_report.json'
                 }
             }
         }
