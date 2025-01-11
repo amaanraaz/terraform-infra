@@ -28,8 +28,7 @@ pipeline {
             steps {
                 script {
                     sh 'tflint --version'
-                    sh 'tflint --module > tflint-log.txt 2>&1'
-                    sh 'cat tflint-log.txt'
+                    sh 'tflint'
                 }
             }
         }
