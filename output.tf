@@ -46,3 +46,9 @@ output "private_security_group" {
   description = "private security group id"
   value       = module.security.private_sg_id
 }
+
+output "alb_dns_name" {
+  description = "alb dns name"
+  value = module.ALB.alb_dns_name
+}
+
