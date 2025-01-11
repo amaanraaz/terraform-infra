@@ -15,6 +15,17 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/amaanraaz/terraform-infra.git'
             }
         }
+
+        stage('Terraform Lint') {
+            steps {
+                script {
+                    // Ensure tflint is installed (you can add installation steps here if necessary)
+                    sh 'tflint --version'  // This will check if tflint is installed and its version
+                    sh 'tflint'  // Run tflint to lint your Terraform code
+                }
+            }
+        }
+
         stage('Terraform Init') {
             when {
              expression { params.operation == 'terraform apply' }
